@@ -89,16 +89,33 @@ public class Spawner : MonoBehaviour
 
         // Move it to the target location.
         var spawnDown = RandomBool();
+        var tall_enemy = RandomBool();
+        var verical_size = tall_enemy ? spawnSize * 2 : spawnSize;
         obstacle.transform.position += (Vector3)(spawnDown ? 
-            spawnOffset + (1.0f - spawnSize) / 2.0f : 
-            -spawnOffset - (1.0f - spawnSize) / 2.0f
+            spawnOffset + (1.0f - verical_size) / 2.0f : 
+            -spawnOffset - (1.0f - verical_size) / 2.0f
         );
         
         // Scale it.
-        obstacle.transform.localScale = new Vector3(spawnSize, spawnSize, spawnSize);
+        obstacle.transform.localScale = new Vector3(spawnSize, verical_size, spawnSize);
         
         // Move the obstacle into the correct layer.
         obstacle.layer = LayerMask.NameToLayer(spawnLayer);
+
+        if (!tall_enemy)
+        {
+            var obstacle_second = Instantiate(obstaclePrefab, transform);
+            obstacle_second.transform.position += (Vector3)(!spawnDown ?
+                spawnOffset + (1.0f - verical_size) / 2.0f :
+                -spawnOffset - (1.0f - verical_size) / 2.0f
+            );
+
+            // Scale it.
+            obstacle_second.transform.localScale = new Vector3(spawnSize, verical_size, spawnSize);
+
+            // Move the obstacle into the correct layer.
+            obstacle_second.layer = LayerMask.NameToLayer(spawnLayer);
+        }
     }
 
     /// <summary>

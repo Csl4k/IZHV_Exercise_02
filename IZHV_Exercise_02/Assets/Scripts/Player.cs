@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
     public float jumpVelocity = 100.0f;
 
     /// <summary>
+    /// The instant velocity applied when rotating. 
+    /// </summary>
+    public float gravityChangeSpeed = 5.0f;
+
+    /// <summary>
     /// Distance to which ground should be detected.
     /// </summary>
     public float groundCheckDistance = 0.01f;
@@ -137,6 +142,7 @@ public class Player : MonoBehaviour
                 Math.Abs(Physics2D.gravity.x),
                 Math.Abs(Physics2D.gravity.y)
             );
+            mRB.velocity = new Vector2(mRB.velocity.x, mCurrentGravity * gravityChangeSpeed);
             mTargetRotation = Quaternion.Euler(new float3(
                 rotateAxis.x && mCurrentGravity > 0.0f ? 180.0f : 0.0f, 
                 rotateAxis.y && mCurrentGravity > 0.0f ? 180.0f : 0.0f, 
